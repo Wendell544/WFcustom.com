@@ -1,0 +1,192 @@
+:root {
+    --rosa: #F48FB1;
+    --laranja: #FFD180;
+    --branco: #ffffff;
+    --cinza-claro: #f5f5f5;
+    --cinza-texto: #333333;
+    --sombra: rgba(0, 0, 0, 0.1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--cinza-claro);
+    color: var(--cinza-texto);
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.container {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 10px;
+    background-color: var(--branco);
+    min-height: 100vh;
+    box-shadow: 0 0 10px var(--sombra);
+}
+
+header {
+    text-align: center;
+    padding: 10px 0;
+    background-color: var(--rosa);
+    color: var(--branco);
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+header h1 {
+    font-size: 1.4rem;
+    font-weight: 500;
+}
+
+.robot-section {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    background-color: var(--branco);
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 2px 5px var(--sombra);
+}
+
+.robot-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: var(--laranja);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    overflow: hidden;
+}
+
+.robot-avatar img {
+    width: 100%;
+    height: auto;
+}
+
+.robot-message {
+    flex: 1;
+    background-color: var(--laranja);
+    padding: 8px 12px;
+    border-radius: 18px;
+    font-size: 0.85rem;
+}
+
+.categories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-bottom: 15px;
+}
+
+.category-btn {
+    flex: 1;
+    min-width: 100px;
+    padding: 8px 5px;
+    background-color: var(--branco);
+    border: 1px solid var(--rosa);
+    color: var(--rosa);
+    border-radius: 20px;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.category-btn.active {
+    background-color: var(--rosa);
+    color: var(--branco);
+}
+
+.recipes-container h2 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    text-align: center;
+    color: var(--rosa);
+}
+
+.recipes-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+}
+
+.recipe-card {
+    background-color: var(--branco);
+    border-radius: 8px;
+    padding: 12px;
+    box-shadow: 0 2px 4px var(--sombra);
+    border: 1px solid var(--laranja);
+    cursor: pointer;
+}
+
+.recipe-card h3 {
+    font-size: 0.95rem;
+    color: var(--rosa);
+    margin-bottom: 8px;
+}
+
+.recipe-card p {
+    font-size: 0.8rem;
+    margin-bottom: 5px;
+}
+
+.recipe-card ul, .recipe-card ol {
+    padding-left: 20px;
+    font-size: 0.8rem;
+}
+
+.nutrition-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.7rem;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px dashed var(--laranja);
+}
+
+.nutrition-info span {
+    display: block;
+    text-align: center;
+    flex: 1;
+}
+
+.pwa-install-prompt {
+    position: fixed;
+    bottom: 10px;
+    left: 0;
+    right: 0;
+    padding: 10px;
+    background-color: var(--rosa);
+    text-align: center;
+    display: none;
+}
+
+#install-btn {
+    background-color: var(--branco);
+    color: var(--rosa);
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+
+/* Responsividade */
+@media (min-width: 480px) {
+    .container {
+        padding: 15px;
+    }
+    .robot-message {
+        font-size: 0.9rem;
+    }
+    .category-btn {
+        font-size: 0.8rem;
+    }
+}
