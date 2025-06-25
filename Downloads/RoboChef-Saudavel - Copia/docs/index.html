@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#F48FB1">
+    <title>RoboChef Saudável</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>RoboChef Saudável</h1>
+        </header>
+
+        <section class="robot-section">
+            <div class="robot-avatar">
+                <img src="assets/robot-chef.png" alt="Chef Robô">
+            </div>
+            <div class="robot-message">
+                <p id="robot-text">Olá! Vamos preparar algo saudável?</p>
+            </div>
+        </section>
+
+        <nav class="categories">
+            <button class="category-btn active" data-category="breakfast">Café da Manhã</button>
+            <button class="category-btn" data-category="lunch">Almoço</button>
+            <button class="category-btn" data-category="snack">Lanche da Tarde</button>
+            <button class="category-btn" data-category="dinner">Jantar</button>
+        </nav>
+
+        <main class="recipes-container">
+            <h2 id="category-title">Receitas</h2>
+            <div id="recipes-list" class="recipes-list">
+                <!-- Receitas serão carregadas aqui via JavaScript -->
+            </div>
+        </main>
+
+        <div class="pwa-install-prompt">
+            <button id="install-btn">Salvar na Tela Inicial</button>
+        </div>
+    </div>
+
+    <script src="receitas.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
