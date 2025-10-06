@@ -1,0 +1,197 @@
+// Funções relacionadas ao carrinho
+let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+
+// Adicionar produto ao carrinho
+function addToCart(product, color, size) {
+    const cartItem = {
+        id: Date.now(), // ID único para o item no carrinho
+        product: product,
+        color: color,
+        size: size,
+        price: product.price
+    };
+    
+    cartItems.push(cartItem);
+    updateCartCount();
+    saveCartToLocalStorage();
+}
+
+// Salvar carrinho no localStorage
+function saveCartToLocalStorage() {
+    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+}
+
+// Atualizar contador do carrinho
+function updateCartCount() {
+    const cartCount = document.querySelector('.cart-count');
+    cartCount.textContent = cartItems.length;
+}
+
+// Renderizar carrinho
+function renderCart() {
+    const cartItemsContainer = document.getElementById('cart-items');
+    const cartSummary = document.getElementById('cart-summary');
+    const checkoutBtn = document.getElementById('checkout-btn');
+    
+    // Limpar carrinho
+    cartItemsContainer.innerHTML = '';
+    
+    if (cartItems.length === 0) {
+        cartItemsContainer.innerHTML = `
+            <div class="empty-cart">
+                <i class="fas fa-shopping-cart"></i>
+                <h3>Seu carrinho está vazio</h3>
+                <p>Adicione alguns produtos para continuar</p>
+            </div>
+        `;
+        
+        cartSummary.innerHTML = '';
+        checkoutBtn.disabled = true;
+        return;
+    }
+    
+    // Renderizar itens do carrinho
+    cartItems.forEach(item => {
+        const cartItemElement = document.createElement('div');
+        cartItemElement.className = 'cart-item';
+        cartItemElement.setAttribute('data-cart-id', item.id);
+        
+        cartItemElement.innerHTML = `
+            <img src="${item.product.variants[item.color]}" alt="${item.product.name}" class="cart-item-image">
+            <div class="cart-item-details">
+                <h3>${item.product.name}</h3>
+                <p>Cor: ${item.color} | Tamanho: ${item.size}</p>
+                <div class="cart-item-price">R$ ${item.price}</div>
+            </div>
+            <button class="remove-item" data-cart-id="${item.id}">
+                <i class="fas fa-trash"></i>
+            </button>
+        `;
+        
+        cartItemsContainer.appendChild(cartItemElement);
+    });
+    
+    // Adicionar event listeners para remover itens
+    document.querySelectorAll('.remove-item').forEach(button => {
+        button.addEventListener('click', (e) => {
+            const cartId = e.currentTarget.getAttribute('data-cart-id');
+            removeFromCart(cartId);
+        });
+    });
+    
+    // Renderizar resumo do carrinho
+    renderCartSummary();
+    
+    checkoutBtn.disabled = false;
+}
+
+// Remover item do carrinho
+function removeFromCart(cartId) {
+    cartItems = cartItems.filter(item => item.id != cartId);
+    updateCartCount();
+    saveCartToLocalStorage();
+    renderCart();
+}
+
+// Renderizar resumo do carrinho
+function renderCartSummary() {
+    const cartSummary = document.getElementById('cart-summary');
+    const subtotal = cartItems.reduce((total, item) => total + item.price, 0);
+    
+    cartSummary.innerHTML = `
+        <div class="summary-row">
+            <span>Subtotal:</span>
+            <span>R$ ${subtotal.toFixed(2)}</span>
+        </div>
+        <div class="summary-row">
+            <span>Frete:</span>
+            <span id="cart-shipping">A calcular</span>
+        </div>
+        <div class="summary-row summary-total">
+            <span>Total:</span>
+            <span id="cart-total">R$ ${subtotal.toFixed(2)}</span>
+        </div>
+    `;
+}
+
+// Calcular frete
+function calculateShipping() {
+    const city = document.getElementById('city').value.toLowerCase();
+    let shippingCost = 9.99; // Valor padrão para outras cidades
+    
+    if (city.includes('são bento') || city.includes('sao bento')) {
+        shippingCost = 0;
+    }
+    
+    const shippingPrice = document.getElementById('shipping-price');
+    const shippingPriceContainer = document.querySelector('.shipping-price');
+    
+    shippingPrice.textContent = `R$ ${shippingCost.toFixed(2)}`;
+    shippingPriceContainer.style.display = 'block';
+    shippingPriceContainer.classList.add('active');
+    
+    // Atualizar frete no carrinho se estiver visível
+    const cartPage = document.getElementById('cart-page');
+    if (cartPage.classList.contains('active')) {
+        const cartShipping = document.getElementById('cart-shipping');
+        const cartTotal = document.getElementById('cart-total');
+        
+        if (cartShipping && cartTotal) {
+            const subtotal = cartItems.reduce((total, item) => total + item.price, 0);
+            const total = subtotal + shippingCost;
+            
+            cartShipping.textContent = `R$ ${shippingCost.toFixed(2)}`;
+            cartTotal.textContent = `R$ ${total.toFixed(2)}`;
+        }
+    }
+}
+
+// Finalizar pedido
+function finalizeOrder() {
+    if (cartItems.length === 0) return;
+    
+    const phoneNumber = '5583999667578';
+    const city = document.getElementById('city').value;
+    const neighborhood = document.getElementById('neighborhood').value;
+    const street = document.getElementById('street').value;
+    const address = document.getElementById('address').value;
+    
+    const subtotal = cartItems.reduce((total, item) => total + item.price, 0);
+    const shippingCost = parseFloat(document.getElementById('shipping-price').textContent.replace('R$ ', ''));
+    const totalPrice = subtotal + shippingCost;
+    
+    let message = `Olá! Gostaria de finalizar meu pedido:%0A%0A`;
+    
+    // Adicionar itens do pedido
+    cartItems.forEach((item, index) => {
+        message += `*Item ${index + 1}:* ${item.product.name}%0A`;
+        message += `- Cor: ${item.color}%0A`;
+        message += `- Tamanho: ${item.size}%0A`;
+        message += `- Preço: R$ ${item.price}%0A%0A`;
+    });
+    
+    message += `*Subtotal:* R$ ${subtotal.toFixed(2)}%0A`;
+    message += `*Frete:* R$ ${shippingCost.toFixed(2)}%0A`;
+    message += `*Total:* R$ ${totalPrice.toFixed(2)}%0A%0A`;
+    message += `*Endereço de entrega:*%0A`;
+    message += `- Cidade: ${city}%0A`;
+    message += `- Bairro: ${neighborhood}%0A`;
+    message += `- Rua: ${street}%0A`;
+    message += `- Número/Complemento: ${address}%0A%0A`;
+    message += `Por favor, confirme meu pedido!`;
+    
+    const url = `https://wa.me/${phoneNumber}?text=${message}`;
+    window.open(url, '_blank');
+    
+    // Limpar carrinho
+    cartItems = [];
+    updateCartCount();
+    saveCartToLocalStorage();
+    
+    // Mostrar modal de confirmação
+    const confirmationModal = document.getElementById('confirmation-modal');
+    confirmationModal.style.display = 'flex';
+    
+    // Fechar página de localização
+    showHome();
+}

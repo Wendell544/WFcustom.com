@@ -1,0 +1,139 @@
+/* Media Queries para Mobile First */
+@media (max-width: 480px) {
+    :root {
+        --container-max-width: 420px;
+        --base-font-size: 12px;
+        --card-image-height: 120px;
+        --spacing-small: 0.3rem;
+        --spacing-medium: 0.6rem;
+        --spacing-large: 1rem;
+    }
+
+    .container {
+        max-width: var(--container-max-width);
+    }
+
+    .banner-carousel {
+        height: 220px; /* Ainda maior que antes, mas ajustado para mobile */
+    }
+
+    .grade-card {
+        min-width: calc(50% - 0.2rem);
+        flex: 0 0 calc(50% - 0.2rem);
+    }
+
+    .section-title h2 {
+        font-size: 1.3rem;
+    }
+
+    .section-title p {
+        font-size: 0.75rem;
+    }
+
+    .grade-title {
+        font-size: 1.1rem;
+    }
+
+    .custom-design {
+        padding: 1.5rem 0;
+    }
+
+    .feature-item {
+        padding: 1rem;
+    }
+
+    .feature-icon {
+        font-size: 1.8rem;
+    }
+
+    .feature-item h3 {
+        font-size: 0.85rem;
+    }
+
+    .feature-item p {
+        font-size: 0.7rem;
+    }
+
+    .custom-business {
+        padding: 1rem;
+    }
+
+    .custom-business h3 {
+        font-size: 1rem;
+    }
+
+    .custom-business p {
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 992px) {
+    .mobile-menu-btn {
+        display: block;
+    }
+    
+    .nav-links {
+        position: fixed;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        background: var(--primary-white);
+        flex-direction: column;
+        align-items: center;
+        padding: 1.5rem 0;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        transform: translateY(-100%);
+        opacity: 0;
+        transition: var(--transition);
+        z-index: 999;
+    }
+    
+    .nav-links.active {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    
+    .nav-links li {
+        margin: 0.8rem 0;
+    }
+}
+
+@media (min-width: 768px) {
+    :root {
+        --container-max-width: 720px;
+    }
+    
+    .grade-container:not(.todos) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .grade-container.todos {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .product-detail-container {
+        grid-template-columns: 1fr 1fr;
+    }
+    
+    .banner-carousel {
+        height: 350px; /* Ainda maior para tablets */
+    }
+}
+
+@media (min-width: 992px) {
+    :root {
+        --container-max-width: 960px;
+    }
+    
+    .grade-container:not(.todos) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .grade-container.todos {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .banner-carousel {
+        height: 400px; /* Maior ainda para desktop */
+    }
+}
